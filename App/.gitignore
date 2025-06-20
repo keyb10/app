@@ -1,0 +1,57 @@
+# Windows system files
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+System Volume Information/
+
+# User folders
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+*.swn
+*.DS_Store
+
+# VSCode and IDE settings
+.vscode/
+.idea/
+
+# Node modules and dependencies
+node_modules/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Mac system files
+.DS_Store
+
+# OS user files
+AppData/
+Contacts/
+Downloads/
+Favorites/
+Links/
+Music/
+OneDrive*/
+Saved Games/
+Searches/
+Videos/
+NTUSER.DAT*
+*.regtrans-ms
+*.blf
+*.LOG*
+ntuser.ini
+
+# Android/Cache
+.android/
+.cache/
+.config/
+
+# Git
+.git/
+
+# Ignore firstproject and other projects outside this folder
+../firstproject/ 
