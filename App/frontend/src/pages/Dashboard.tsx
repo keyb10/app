@@ -14,9 +14,9 @@ interface Feedback {
 }
 
 const emojiLabels: Record<string, string> = {
-  happy: '😃',
-  neutral: '😐',
-  sad: '😞',
+  happy: '😊',
+  frustrated: '😤',
+  crying: '😢',
 };
 
 export default function Dashboard() {

@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 
 const SHEETDB_API_URL = 'https://sheetdb.io/api/v1/17t5w5az6pz4b'; // SheetDB API URL
 
 const emojis = [
-  { label: '😃', value: 'happy' },
-  { label: '😐', value: 'neutral' },
-  { label: '😞', value: 'sad' },
+  { label: '😊', value: 'happy' },
+  { label: '😤', value: 'frustrated' },
+  { label: '😢', value: 'crying' },
 ];
 
 type FeedbackFormInputs = {
@@ -17,7 +17,13 @@ type FeedbackFormInputs = {
 };
 
 export default function FeedbackForm() {
-  const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful } } = useForm<FeedbackFormInputs>();
+  const [selectedEmoji, setSelectedEmoji] = useState<string>('');
+  const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful }, setValue } = useForm<FeedbackFormInputs>();
+
+  const handleEmojiClick = (emojiValue: string) => {
+    setSelectedEmoji(emojiValue);
+    setValue('emoji', emojiValue);
+  };
 
   const onSubmit = async (data: FeedbackFormInputs) => {
     try {
@@ -32,6 +38,7 @@ export default function FeedbackForm() {
         }],
       });
       reset();
+      setSelectedEmoji('');
       alert('Feedback sent!');
     } catch (error) {
       alert('Error sending feedback.');
@@ -44,18 +51,21 @@ export default function FeedbackForm() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex justify-center mb-4 space-x-4">
           {emojis.map((emoji) => (
-            <label key={emoji.value} className="text-4xl cursor-pointer">
-              <input
-                type="radio"
-                value={emoji.value}
-                {...register('emoji', { required: true })}
-                className="hidden"
-              />
-              <span>{emoji.label}</span>
-            </label>
+            <button
+              key={emoji.value}
+              type="button"
+              onClick={() => handleEmojiClick(emoji.value)}
+              className={`text-4xl p-2 rounded-lg transition-all duration-200 transform hover:scale-110 ${
+                selectedEmoji === emoji.value 
+                  ? 'bg-blue-100 border-2 border-blue-500 scale-110' 
+                  : 'hover:bg-gray-100'
+              }`}
+            >
+              {emoji.label}
+            </button>
           ))}
         </div>
-        {errors.emoji && <p className="text-red-500 text-sm mb-2">Please select an emoji.</p>}
+        {errors.emoji && <p className="text-red-500 text-sm mb-2 text-center">Please select an emoji.</p>}
         <textarea
           {...register('comment', { required: true })}
           placeholder="Your comment"
