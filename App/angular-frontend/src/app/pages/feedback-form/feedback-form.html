@@ -1,0 +1,52 @@
+<div class="max-w-md mx-auto mt-10 p-6 bg-white rounded shadow">
+  <h2 class="text-2xl font-bold mb-4 text-center">How do you feel?</h2>
+  
+  <form [formGroup]="feedbackForm" (ngSubmit)="onSubmit()">
+    <div class="flex justify-center mb-4 space-x-4">
+      <button
+        *ngFor="let emoji of emojis"
+        type="button"
+        (click)="selectEmoji(emoji.value)"
+        [class]="'text-4xl p-2 rounded-lg transition-all duration-200 transform hover:scale-110 ' + 
+                (selectedEmoji === emoji.value 
+                  ? 'bg-blue-100 border-2 border-blue-500 scale-110' 
+                  : 'hover:bg-gray-100')"
+      >
+        {{ emoji.label }}
+      </button>
+    </div>
+    
+    <div *ngIf="feedbackForm.get('emoji')?.invalid && feedbackForm.get('emoji')?.touched" 
+         class="text-red-500 text-sm mb-2 text-center">
+      Please select an emoji.
+    </div>
+    
+    <textarea
+      formControlName="comment"
+      placeholder="Your comment"
+      class="w-full p-2 border rounded mb-2"
+    ></textarea>
+    <div *ngIf="feedbackForm.get('comment')?.invalid && feedbackForm.get('comment')?.touched" 
+         class="text-red-500 text-sm mb-2">
+      Comment is required.
+    </div>
+    
+    <input
+      formControlName="name"
+      placeholder="Your name or company"
+      class="w-full p-2 border rounded mb-2"
+    />
+    <div *ngIf="feedbackForm.get('name')?.invalid && feedbackForm.get('name')?.touched" 
+         class="text-red-500 text-sm mb-2">
+      Name is required.
+    </div>
+    
+    <button
+      type="submit"
+      [disabled]="feedbackForm.invalid || isSubmitting"
+      class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition disabled:bg-gray-400"
+    >
+      {{ isSubmitting ? 'Submitting...' : 'Submit' }}
+    </button>
+  </form>
+</div>

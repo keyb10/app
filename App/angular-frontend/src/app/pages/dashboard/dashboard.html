@@ -1,0 +1,31 @@
+<div class="max-w-4xl mx-auto mt-10">
+  <h2 class="text-3xl font-bold mb-6 text-center">Feedback Dashboard</h2>
+  
+  <div *ngIf="loading" class="text-center mt-10">Loading...</div>
+  
+  <div *ngIf="!loading" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div *ngFor="let emojiKey of ['happy', 'frustrated', 'crying']" class="bg-white rounded shadow p-4">
+      <h3 class="text-xl font-bold mb-2 text-center">{{ getEmojiLabel(emojiKey) }}</h3>
+      
+      <div *ngIf="groupedFeedbacks[emojiKey]?.length; else noFeedback">
+        <div *ngFor="let fb of groupedFeedbacks[emojiKey]" class="border-b py-2">
+          <div class="text-sm text-gray-700 mb-1">{{ fb.comment }}</div>
+          <div class="text-xs text-gray-500 mb-1">By: {{ fb.name }}</div>
+          <div class="flex items-center space-x-2 mb-1">
+            <label class="flex items-center text-xs">
+              <input type="checkbox" [checked]="fb.contacted === 'yes'" readonly class="mr-1" /> Contacted
+            </label>
+            <label class="flex items-center text-xs">
+              <input type="checkbox" [checked]="fb.resolved === 'yes'" readonly class="mr-1" /> Resolved
+            </label>
+          </div>
+          <div class="text-xs text-gray-400">{{ fb.timestamp | date:'medium' }}</div>
+        </div>
+      </div>
+      
+      <ng-template #noFeedback>
+        <div class="text-gray-400 text-center">No feedback yet.</div>
+      </ng-template>
+    </div>
+  </div>
+</div>
